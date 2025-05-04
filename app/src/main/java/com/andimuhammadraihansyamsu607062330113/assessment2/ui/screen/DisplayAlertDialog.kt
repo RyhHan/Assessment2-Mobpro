@@ -16,7 +16,7 @@ fun DisplayAlertDialog(
     onConfirmation: () -> Unit,
 ) {
     AlertDialog(
-        text = { Text(text = stringResource(id = R.string.mahasiswa_hapus)) },
+        text = { Text(text = stringResource(id = R.string.recipe_hapus)) },
         confirmButton = {
             TextButton(onClick = {onConfirmation()}) {
                 Text(text = stringResource(id = R.string.tombol_hapus))

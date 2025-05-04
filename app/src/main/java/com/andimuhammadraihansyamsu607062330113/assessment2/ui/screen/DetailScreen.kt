@@ -45,6 +45,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
     var nama by remember { mutableStateOf("") }
     var deskripsi by remember { mutableStateOf("") }
     var bahan by remember { mutableStateOf("") }
+    var langkah by remember { mutableStateOf("") }
     var kelas by remember { mutableStateOf("Makanan Berat") }
     var showDialog by remember { mutableStateOf(false) }
     var bahanList by remember { mutableStateOf<List<String>>(emptyList()) }
@@ -55,6 +56,7 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
         nama = data.nama
         deskripsi = data.deskripsi
         bahan = data.bahan
+        langkah = data.langkah
         kelas = data.kategori.ifEmpty { "Makanan Berat" }
         bahanList = data.bahan.split(", ").toMutableList()
     }
@@ -73,9 +75,9 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                 },
                 title = {
                     Text(text = if (id == null)
-                        stringResource(id = R.string.tambah_mahasiswa)
+                        stringResource(id = R.string.tambah_recipe)
                     else
-                        stringResource(id = R.string.edit_mahasiswa))
+                        stringResource(id = R.string.edit_recipe))
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -83,15 +85,15 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
                 ),
                 actions = {
                     IconButton(onClick = {
-                        if (deskripsi.isBlank() || nama.isBlank()) {
+                        if (deskripsi.isBlank() || nama.isBlank() || kelas.isBlank() || bahanList.isEmpty() || langkah.isBlank()) {
                             Toast.makeText(context, R.string.invalid, Toast.LENGTH_LONG).show()
                             return@IconButton
                         }
                         val bahanGabung = bahanList.joinToString(", ")
                         if (id == null) {
-                            viewModel.insert(nama, deskripsi, kelas, bahanGabung)
+                            viewModel.insert(nama, deskripsi, kelas,langkah, bahanGabung)
                         } else {
-                            viewModel.update(id, nama, deskripsi, kelas, bahanGabung)
+                            viewModel.update(id, nama, deskripsi, kelas,langkah, bahanGabung)
                         }
                         navController.popBackStack()
                     }) {
@@ -117,6 +119,8 @@ fun DetailScreen(navController: NavController, id: Long? = null) {
             onDeskripsiChange = { deskripsi = it },
             kelas = kelas,
             onKelasChange = { kelas = it },
+            langkah = langkah,
+            onLangkahChange = { langkah = it },
             bahanList = bahanList,
             onAddBahan = {
                 if (it.isNotBlank()) {
@@ -171,6 +175,7 @@ fun FormRecipe(
     name: String, onNameChange: (String) -> Unit,
     deskripsi: String, onDeskripsiChange: (String) -> Unit,
     kelas: String, onKelasChange: (String) -> Unit,
+    langkah : String,onLangkahChange: (String) -> Unit,
     bahanList: List<String>, onAddBahan: (String) -> Unit, onRemoveBahan: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -180,7 +185,7 @@ fun FormRecipe(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // Tambah scroll
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -208,6 +213,19 @@ fun FormRecipe(
             modifier = Modifier.fillMaxWidth()
         )
 
+        OutlinedTextField(
+            value = langkah,
+            onValueChange = onLangkahChange,
+            label = { Text(stringResource(id = R.string.langkah_recipe)) },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences,
+                imeAction = ImeAction.Next
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            maxLines = 5
+        )
+
+
         val radioOptions = listOf("Makanan Berat", "Makanan Ringan", "Minuman", "Kue", "Snack")
         OutlinedCard(modifier = Modifier.fillMaxWidth()) {
             Column(
@@ -234,19 +252,17 @@ fun FormRecipe(
                 showError = false
             },
             isError = showError,
-            label = { Text("Tambah Bahan (pisah dengan koma)") },
+            label = { Text(stringResource( id = R.string.tambah_bahan)) },
             modifier = Modifier.fillMaxWidth(),
             supportingText = {
-                if (showError) Text("Bahan tidak boleh kosong", color = MaterialTheme.colorScheme.error)
+                if (showError) Text(stringResource(id = R.string.bahan_tidak_kosong), color = MaterialTheme.colorScheme.error)
             }
         )
 
         Button(
             onClick = {
                 if (currentBahan.isNotBlank()) {
-                    currentBahan.split(",").map { it.trim() }.filter { it.isNotEmpty() }.forEach {
-                        onAddBahan(it)
-                    }
+                        onAddBahan(currentBahan)
                     currentBahan = ""
                 } else {
                     showError = true
@@ -254,12 +270,12 @@ fun FormRecipe(
             },
             modifier = Modifier.align(Alignment.End)
         ) {
-            Text("Tambah")
+            Text(stringResource(id = R.string.tambah))
         }
 
         if (bahanList.isNotEmpty()) {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text("Daftar Bahan:")
+                Text(stringResource(id = R.string.daftar_bahan))
                 bahanList.forEach { bahan ->
                     Box(
                         modifier = Modifier

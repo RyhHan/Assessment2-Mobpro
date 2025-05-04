@@ -9,11 +9,12 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(private val dao: RecipeDao) : ViewModel() {
 
-    fun insert(nama:String,nim: String,kelas: String,bahan : String) {
+    fun insert(nama:String,nim: String,kelas: String,langkah : String ,bahan : String) {
         val recipe = Recipe(
             nama = nama,
             deskripsi   = nim,
             kategori = kelas,
+            langkah = langkah,
             bahan = bahan,
         )
 
@@ -26,12 +27,13 @@ class DetailViewModel(private val dao: RecipeDao) : ViewModel() {
         return dao.getMahasiswaById(id)
     }
 
-    fun update(id: Long,nama:String,nim: String,kelas: String,bahan: String) {
+    fun update(id: Long,nama:String,nim: String,kelas: String,langkah: String, bahan: String) {
         val recipe = Recipe(
             id      = id,
             nama = nama,
             deskripsi   = nim,
             kategori = kelas,
+            langkah = langkah,
             bahan = bahan,
         )
 
@@ -40,7 +42,7 @@ class DetailViewModel(private val dao: RecipeDao) : ViewModel() {
         }
     }
 
-    fun RecycleBin(id: Long) {
+    fun RecycleBinRestore(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             dao.deleteById(id)
         }

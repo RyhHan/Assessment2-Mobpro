@@ -109,7 +109,7 @@ fun MainScreen(navController: NavHostController) {
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.tambah_mahasiswa),
+                    contentDescription = stringResource(R.string.tambah_recipe),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }

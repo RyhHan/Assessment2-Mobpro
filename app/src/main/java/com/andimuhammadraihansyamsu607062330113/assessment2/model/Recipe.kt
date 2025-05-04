@@ -11,5 +11,6 @@ data class Recipe(
     val deskripsi: String,
     val kategori: String,
     val bahan : String,
+    val langkah: String,
     val isDeleted: Boolean = false
 )
