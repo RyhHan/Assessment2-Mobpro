@@ -182,11 +182,11 @@ fun ListItem(recipe: Recipe, onClick: () -> Unit) {
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = recipe.nim,
+            text = recipe.deskripsi,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        Text(text = recipe.kelas)
+        Text(text = recipe.kategori)
     }
 }
 
@@ -210,11 +210,11 @@ fun GridItem(recipe: Recipe, onClick: () -> Unit) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = recipe.nim,
+                text = recipe.deskripsi,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(text = recipe.kelas)
+            Text(text = recipe.kategori)
         }
     }
 }

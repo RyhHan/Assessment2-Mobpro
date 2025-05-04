@@ -9,11 +9,12 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(private val dao: RecipeDao) : ViewModel() {
 
-    fun insert(nama:String,nim: String,kelas: String) {
+    fun insert(nama:String,nim: String,kelas: String,bahan : String) {
         val recipe = Recipe(
             nama = nama,
-            nim   = nim,
-            kelas = kelas
+            deskripsi   = nim,
+            kategori = kelas,
+            bahan = bahan,
         )
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -25,12 +26,13 @@ class DetailViewModel(private val dao: RecipeDao) : ViewModel() {
         return dao.getMahasiswaById(id)
     }
 
-    fun update(id: Long,nama:String,nim: String,kelas: String) {
+    fun update(id: Long,nama:String,nim: String,kelas: String,bahan: String) {
         val recipe = Recipe(
             id      = id,
             nama = nama,
-            nim   = nim,
-            kelas = kelas
+            deskripsi   = nim,
+            kategori = kelas,
+            bahan = bahan,
         )
 
         viewModelScope.launch(Dispatchers.IO) {

@@ -4,8 +4,9 @@
     <string name="x_diklik">%1$s</string>
     <string name="tambah_mahasiswa">Tambah Mahasiswa</string>
     <string name="belum_bisa">Belum bisa tambah mahasiswa.</string>
-    <string name="nama_mahasiswa">Nama Mahasiswa</string>
-    <string name="nim_mahasiswa">NIM</string>
+    <string name="nama_recipe">Nama Recipe</string>
+    <string name="deskripsi_recipe">Deskripsi Recipe</string>
+    <string name="kategori_recipe">Kategori Recipe</string>
     <string name="kembali">Kembali</string>
     <string name="simpan">Simpan</string>
     <string name="edit_mahasiswa">Ubah Mahasiswa</string>

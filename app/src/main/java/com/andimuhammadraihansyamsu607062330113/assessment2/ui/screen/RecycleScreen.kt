@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -53,7 +54,6 @@ fun RecycleScreen(navController: NavHostController) {
     val viewModel: MainViewModel = viewModel(factory = factory)
     val deletedData by viewModel.dataSampah.collectAsState(emptyList())
 
-    // State untuk menampilkan dialog
     val (showDialog, setShowDialog) = remember { mutableStateOf(false) }
     val (selectedItem, setSelectedItem) = remember { mutableStateOf<Recipe?>(null) }
 
@@ -69,7 +69,11 @@ fun RecycleScreen(navController: NavHostController) {
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary
+                )
             )
         }
     ) { padding ->
@@ -95,14 +99,13 @@ fun RecycleScreen(navController: NavHostController) {
                 items(deletedData) { item ->
                     DeletedListItem(recipe = item, onDelete = {
                         setSelectedItem(item)
-                        setShowDialog(true) // Tampilkan dialog konfirmasi
+                        setShowDialog(true)
                     })
                     HorizontalDivider()
                 }
             }
         }
 
-        // AlertDialog untuk konfirmasi penghapusan permanen
         if (showDialog && selectedItem != null) {
             AlertDialog(
                 onDismissRequest = { setShowDialog(false) },
@@ -112,7 +115,7 @@ fun RecycleScreen(navController: NavHostController) {
                     Button(
                         onClick = {
                             selectedItem?.let {
-                                viewModel.deletePermanent(it) // Hapus permanen data
+                                viewModel.deletePermanent(it)
                             }
                             setShowDialog(false)
                         }
@@ -130,6 +133,7 @@ fun RecycleScreen(navController: NavHostController) {
         }
     }
 }
+
 @Composable
 fun DeletedListItem(recipe: Recipe, onDelete: () -> Unit) {
     Column(
@@ -139,8 +143,8 @@ fun DeletedListItem(recipe: Recipe, onDelete: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(recipe.nama, fontWeight = FontWeight.Bold)
-        Text(recipe.nim)
-        Text(recipe.kelas)
+        Text(recipe.deskripsi)
+        Text(recipe.kategori)
         IconButton(onClick = onDelete) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_delete_forever_24),
@@ -150,9 +154,6 @@ fun DeletedListItem(recipe: Recipe, onDelete: () -> Unit) {
         }
     }
 }
-
-
-
 
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

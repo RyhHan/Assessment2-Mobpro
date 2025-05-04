@@ -23,9 +23,9 @@ abstract class RecipeDb : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         RecipeDb::class.java,
-                        "mahasiswa.db"
+                        "recipes.db"
                     )
-                        .fallbackToDestructiveMigration() // Tambahkan ini
+                        .fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance
                 }
