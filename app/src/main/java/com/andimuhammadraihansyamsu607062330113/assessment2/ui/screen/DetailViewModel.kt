@@ -24,7 +24,7 @@ class DetailViewModel(private val dao: RecipeDao) : ViewModel() {
     }
 
     suspend fun getMahasiswa(id: Long): Recipe? {
-        return dao.getMahasiswaById(id)
+        return dao.getRecipeById(id)
     }
 
     fun update(id: Long,nama:String,nim: String,kelas: String,langkah: String, bahan: String) {
@@ -42,15 +42,9 @@ class DetailViewModel(private val dao: RecipeDao) : ViewModel() {
         }
     }
 
-    fun RecycleBinRestore(id: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            dao.deleteById(id)
-        }
-    }
-
     fun sampah(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            dao.sampahMahasiswa(id)
+            dao.sampahRecipe(id)
         }
     }
 }

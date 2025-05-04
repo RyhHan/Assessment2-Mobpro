@@ -11,13 +11,13 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val dao: RecipeDao) : ViewModel() {
 
-    val data: StateFlow<List<Recipe>> = dao.getMahasiswa().stateIn(
+    val data: StateFlow<List<Recipe>> = dao.getRecipe().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = emptyList()
     )
 
-    val dataSampah: StateFlow<List<Recipe>> = dao.getSampahMahasiswa().stateIn(
+    val dataSampah: StateFlow<List<Recipe>> = dao.getSampahRecipes().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = emptyList()
@@ -26,6 +26,12 @@ class MainViewModel(private val dao: RecipeDao) : ViewModel() {
     fun deletePermanent(recipe: Recipe) {
         viewModelScope.launch {
             dao.deletePermanent(recipe)
+        }
+    }
+
+    fun restore(id: Long) {
+        viewModelScope.launch {
+            dao.restoreRecipe(id)
         }
     }
 }

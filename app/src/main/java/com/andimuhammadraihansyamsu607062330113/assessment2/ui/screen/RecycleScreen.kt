@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -136,23 +138,51 @@ fun RecycleScreen(navController: NavHostController) {
 
 @Composable
 fun DeletedListItem(recipe: Recipe, onDelete: () -> Unit) {
+    val context = LocalContext.current
+    val db = RecipeDb.getInstance(context)
+    val factory = ViewModelFactory(db.dao)
+    val viewModel: MainViewModel = viewModel(factory = factory)
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(recipe.nama, fontWeight = FontWeight.Bold)
-        Text(recipe.deskripsi)
+        Text(
+            recipe.nama,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            recipe.deskripsi,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
         Text(recipe.kategori)
-        IconButton(onClick = onDelete) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_delete_forever_24),
-                contentDescription = "Hapus Permanen",
-                tint = MaterialTheme.colorScheme.error
-            )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onDelete) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_delete_forever_24),
+                    contentDescription = "Hapus Permanen",
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
+            IconButton(onClick = { viewModel.restore(id = recipe.id) }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_restore_24),
+                    contentDescription = "Restore",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
+
 }
 
 @Preview(showBackground = true)

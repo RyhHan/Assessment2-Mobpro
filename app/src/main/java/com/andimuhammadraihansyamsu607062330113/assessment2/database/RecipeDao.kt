@@ -23,16 +23,19 @@ interface RecipeDao {
     suspend fun deletePermanent(recipe: Recipe)
 
     @Query("SELECT * FROM recipes where isDeleted = 0 ORDER BY kategori ASC")
-    fun getMahasiswa(): Flow<List<Recipe>>
+    fun getRecipe(): Flow<List<Recipe>>
 
     @Query("SELECT * FROM recipes WHERE isDeleted = 1")
-    fun getSampahMahasiswa(): Flow<List<Recipe>>
+    fun getSampahRecipes(): Flow<List<Recipe>>
 
     @Query("SELECT * FROM recipes WHERE id = :id")
-    suspend fun getMahasiswaById(id: Long): Recipe?
+    suspend fun getRecipeById(id: Long): Recipe?
 
     @Query("UPDATE recipes SET isDeleted = 1 WHERE id = :id")
-    suspend fun sampahMahasiswa(id: Long)
+    suspend fun sampahRecipe(id: Long)
+
+    @Query("UPDATE recipes SET isDeleted = 0 WHERE id = :id")
+    suspend fun restoreRecipe(id: Long)
 
     @Query("DELETE FROM recipes WHERE id = :id")
     suspend fun deleteById(id: Long)
