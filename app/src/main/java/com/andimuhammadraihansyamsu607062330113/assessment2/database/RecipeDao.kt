@@ -3,21 +3,15 @@ package com.andimuhammadraihansyamsu607062330113.assessment2.database
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
-import com.andimuhammadraihansyamsu607062330113.assessment2.model.Category
-import com.andimuhammadraihansyamsu607062330113.assessment2.model.Ingredient
 import com.andimuhammadraihansyamsu607062330113.assessment2.model.Recipe
-import com.andimuhammadraihansyamsu607062330113.assessment2.model.relation.RecipeWithIngredientsAndCategory
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecipeDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(recipe: Recipe): Long
+    @Insert
+    suspend fun insert(recipe: Recipe)
 
     @Update
     suspend fun update(recipe: Recipe)
@@ -25,10 +19,21 @@ interface RecipeDao {
     @Delete
     suspend fun delete(recipe: Recipe)
 
-    @Query("SELECT * FROM recipe WHERE isDeleted = 0")
-    fun getAllRecipes(): Flow<List<Recipe>>
+    @Delete
+    suspend fun deletePermanent(recipe: Recipe)
 
-    @Transaction
-    @Query("SELECT * FROM recipe WHERE id = :id")
-    suspend fun getRecipeWithDetail(id: Long): RecipeWithIngredientsAndCategory?
+    @Query("SELECT * FROM mahasiswa where isDeleted = 0 ORDER BY kelas ASC")
+    fun getMahasiswa(): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM mahasiswa WHERE isDeleted = 1")
+    fun getSampahMahasiswa(): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM mahasiswa WHERE id = :id")
+    suspend fun getMahasiswaById(id: Long): Recipe?
+
+    @Query("UPDATE mahasiswa SET isDeleted = 1 WHERE id = :id")
+    suspend fun sampahMahasiswa(id: Long)
+
+    @Query("DELETE FROM mahasiswa WHERE id = :id")
+    suspend fun deleteById(id: Long)
 }

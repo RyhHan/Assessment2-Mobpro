@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">Assessment2</string>
+    <string name="app_name">Recipe</string>
+    <string name="list_kosong">Belum ada data Mahasiswa</string>
+    <string name="x_diklik">%1$s</string>
+    <string name="tambah_mahasiswa">Tambah Mahasiswa</string>
+    <string name="belum_bisa">Belum bisa tambah mahasiswa.</string>
+    <string name="nama_mahasiswa">Nama Mahasiswa</string>
+    <string name="nim_mahasiswa">NIM</string>
+    <string name="kembali">Kembali</string>
+    <string name="simpan">Simpan</string>
+    <string name="edit_mahasiswa">Ubah Mahasiswa</string>
+    <string name="invalid">nama dan nim Mahasiswa tidak boleh kosong.</string>
+    <string name="lainnya">Opsi Lainnya</string>
+    <string name="hapus">Hapus Mahasiswa</string>
+    <string name="mahasiswa_hapus">Hapus Mahasiswa ini?</string>
+    <string name="tombol_hapus">Hapus</string>
+    <string name="tombol_batal">Batal</string>
+    <string name="list">Tampilan list</string>
+    <string name="grid">Tampilan grid</string>
+    <string name="trash">sampah</string>
 </resources>
