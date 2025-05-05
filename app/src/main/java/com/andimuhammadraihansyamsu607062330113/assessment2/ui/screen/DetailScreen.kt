@@ -1,6 +1,5 @@
 package com.andimuhammadraihansyamsu607062330113.assessment2.ui.screen
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +10,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
@@ -22,7 +20,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -35,16 +32,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.andimuhammadraihansyamsu607062330113.assessment2.R
 import com.andimuhammadraihansyamsu607062330113.assessment2.database.RecipeDb
 import com.andimuhammadraihansyamsu607062330113.assessment2.model.Recipe
 import com.andimuhammadraihansyamsu607062330113.assessment2.navigation.Screen
-import com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme.Assessment2Theme
 import com.andimuhammadraihansyamsu607062330113.assessment2.util.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -148,32 +142,14 @@ fun DetailScreen(navController: NavController, id: Long?) {
                 )            }
         }
 
-        if (showDeleteDialog) {
-            AlertDialog(
-                onDismissRequest = { showDeleteDialog = false },
-                title = { Text(stringResource(R.string.confirm_delete)) },
-                text = { Text(stringResource(R.string.delete_message)) },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            id?.let {
-                                viewModel.sampah(it)
-                            }
-                            showDeleteDialog = false
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Text(stringResource(R.string.yes))
-                    }
-                },
-                dismissButton = {
-                    TextButton(
-                        onClick = { showDeleteDialog = false }
-                    ) {
-                        Text(stringResource(R.string.no))
-                    }
-                }
-            )
+        if (id != null && showDeleteDialog) {
+            DisplayAlertDialog(
+                onDismissRequest = { showDeleteDialog = false }
+            ) {
+                showDeleteDialog = false
+                viewModel.sampah(id)
+                navController.popBackStack()
+            }
         }
     }
 }
@@ -183,7 +159,8 @@ fun RecipeDetailCard(title: String, value: String) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(4.dp),
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
         Column(
             modifier = Modifier
@@ -197,17 +174,17 @@ fun RecipeDetailCard(title: String, value: String) {
             Text(
                 text = value,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }
 }
 
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-@Composable
-fun DetailScreenPreview() {
-    Assessment2Theme {
-        DetailScreen(rememberNavController(), 1L)
-    }
-}
+//@Preview(showBackground = true)
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+//@Composable
+//fun DetailScreenPreview() {
+//    ThemeController {
+//        DetailScreen(rememberNavController(), 1L)
+//    }
+//}

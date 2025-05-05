@@ -1,4 +1,4 @@
-package com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme
+package com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme.normal
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,14 +1,12 @@
 package com.andimuhammadraihansyamsu607062330113.assessment2.ui.screen
 
-import android.content.res.Configuration
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.andimuhammadraihansyamsu607062330113.assessment2.R
-import com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme.Assessment2Theme
 
 @Composable
 fun DisplayAlertDialog(
@@ -16,29 +14,36 @@ fun DisplayAlertDialog(
     onConfirmation: () -> Unit,
 ) {
     AlertDialog(
-        text = { Text(text = stringResource(id = R.string.recipe_hapus)) },
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text(
+                text = stringResource(id = R.string.confirm_delete),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(id = R.string.recipe_hapus),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        },
         confirmButton = {
-            TextButton(onClick = {onConfirmation()}) {
-                Text(text = stringResource(id = R.string.tombol_hapus))
+            TextButton(onClick = onConfirmation) {
+                Text(
+                    text = stringResource(id = R.string.tombol_hapus),
+                    color = MaterialTheme.colorScheme.error
+                )
             }
         },
         dismissButton = {
-            TextButton(onClick = {onDismissRequest()}) {
-                Text(text = stringResource(id = R.string.tombol_batal))
+            TextButton(onClick = onDismissRequest) {
+                Text(
+                    text = stringResource(id = R.string.tombol_batal),
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
-        },
-        onDismissRequest = { onDismissRequest() }
+        }
     )
-}
-
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-@Composable
-fun DisplayAlertDialogPreview() {
-    Assessment2Theme {
-        DisplayAlertDialog(
-            onDismissRequest = {},
-            onConfirmation = {}
-        )
-    }
 }

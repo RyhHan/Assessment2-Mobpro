@@ -1,6 +1,5 @@
 package com.andimuhammadraihansyamsu607062330113.assessment2.ui.screen
 
-import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,16 +38,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.andimuhammadraihansyamsu607062330113.assessment2.R
 import com.andimuhammadraihansyamsu607062330113.assessment2.database.RecipeDb
 import com.andimuhammadraihansyamsu607062330113.assessment2.model.Recipe
 import com.andimuhammadraihansyamsu607062330113.assessment2.navigation.Screen
-import com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme.Assessment2Theme
 import com.andimuhammadraihansyamsu607062330113.assessment2.util.SettingsDataStore
 import com.andimuhammadraihansyamsu607062330113.assessment2.util.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -60,6 +56,7 @@ import kotlinx.coroutines.launch
 fun MainScreen(navController: NavHostController) {
     val dataStore = SettingsDataStore(LocalContext.current)
     val showList by dataStore.layoutFlow.collectAsState(true)
+    val isGreenTheme by dataStore.themeFlow.collectAsState(initial = false)
 
     Scaffold (
         topBar = {
@@ -78,6 +75,17 @@ fun MainScreen(navController: NavHostController) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_delete_24),
                             contentDescription = stringResource(R.string.trash),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    IconButton(onClick = {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            dataStore.setTheme(!isGreenTheme)
+                        }
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_format_paint_24),
+                            contentDescription = stringResource(id = R.string.switch_theme),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -219,11 +227,11 @@ fun GridItem(recipe: Recipe, onClick: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Assessment2Theme {
-        MainScreen(rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    ThemeController {
+//        MainScreen(rememberNavController())
+//    }
+//}

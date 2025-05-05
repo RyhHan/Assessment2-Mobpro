@@ -1,6 +1,5 @@
-package com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme
+package com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme.normal
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -34,10 +33,10 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun Assessment2Theme(
+fun normalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

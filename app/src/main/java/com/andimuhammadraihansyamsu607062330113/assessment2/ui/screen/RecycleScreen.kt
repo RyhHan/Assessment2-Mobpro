@@ -1,6 +1,5 @@
 package com.andimuhammadraihansyamsu607062330113.assessment2.ui.screen
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,18 +33,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.andimuhammadraihansyamsu607062330113.assessment2.R
 import com.andimuhammadraihansyamsu607062330113.assessment2.database.RecipeDb
 import com.andimuhammadraihansyamsu607062330113.assessment2.model.Recipe
-import com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme.Assessment2Theme
 import com.andimuhammadraihansyamsu607062330113.assessment2.util.ViewModelFactory
 import androidx.compose.material3.Divider as HorizontalDivider
+
+// Import tetap seperti sebelumnya
 
 @Suppress("DEPRECATION")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,19 +61,24 @@ fun RecycleScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.judul_tempat_sampah)) },
+                title = {
+                    Text(
+                        text = stringResource(R.string.judul_tempat_sampah),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.kembali),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
             )
         }
@@ -90,7 +93,11 @@ fun RecycleScreen(navController: NavHostController) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(stringResource(R.string.tidak_ada_data_sampah))
+                Text(
+                    text = stringResource(R.string.tidak_ada_data_sampah),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
             }
         } else {
             LazyColumn(
@@ -104,7 +111,7 @@ fun RecycleScreen(navController: NavHostController) {
                         setSelectedItem(item)
                         setShowDialog(true)
                     })
-                    HorizontalDivider()
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f))
                 }
             }
         }
@@ -112,27 +119,43 @@ fun RecycleScreen(navController: NavHostController) {
         if (showDialog && selectedItem != null) {
             AlertDialog(
                 onDismissRequest = { setShowDialog(false) },
-                title = { Text(stringResource(R.string.judul_konfirmasi_hapus_permanen)) },
+                title = {
+                    Text(
+                        text = stringResource(R.string.judul_konfirmasi_hapus_permanen),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
                 text = {
-                    Text(stringResource(R.string.konfirmasi_hapus_permanen, selectedItem.nama))
+                    Text(
+                        text = stringResource(R.string.konfirmasi_hapus_permanen, selectedItem.nama),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
                 },
                 confirmButton = {
-                    Button(
-                        onClick = {
-                            selectedItem.let {
-                                viewModel.deletePermanent(it)
-                            }
-                            setShowDialog(false)
+                    Button(onClick = {
+                        selectedItem.let {
+                            viewModel.deletePermanent(it)
                         }
-                    ) {
-                        Text(stringResource(R.string.hapus))
+                        setShowDialog(false)
+                    }) {
+                        Text(
+                            text = stringResource(R.string.hapus),
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
                     }
                 },
                 dismissButton = {
                     Button(onClick = { setShowDialog(false) }) {
-                        Text(stringResource(R.string.tombol_batal))
+                        Text(
+                            text = stringResource(R.string.tombol_batal),
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
                     }
                 },
+                containerColor = MaterialTheme.colorScheme.surface,
+                tonalElevation = 6.dp,
                 properties = DialogProperties(usePlatformDefaultWidth = false)
             )
         }
@@ -145,6 +168,7 @@ fun DeletedListItem(recipe: Recipe, onDelete: () -> Unit) {
     val db = RecipeDb.getInstance(context)
     val factory = ViewModelFactory(db.dao)
     val viewModel: MainViewModel = viewModel(factory = factory)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -152,17 +176,25 @@ fun DeletedListItem(recipe: Recipe, onDelete: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            recipe.nama,
+            text = recipe.nama,
             fontWeight = FontWeight.Bold,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            recipe.deskripsi,
+            text = recipe.deskripsi,
             maxLines = 2,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground
         )
-        Text(recipe.kategori)
+        Text(
+            text = recipe.kategori,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.secondary
+        )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -185,14 +217,5 @@ fun DeletedListItem(recipe: Recipe, onDelete: () -> Unit) {
             }
         }
     }
-
 }
 
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-@Composable
-fun ScreenPreview() {
-    Assessment2Theme {
-        RecycleScreen(rememberNavController())
-    }
-}
