@@ -23,7 +23,7 @@ class DetailViewModel(private val dao: RecipeDao) : ViewModel() {
         }
     }
 
-    suspend fun getMahasiswa(id: Long): Recipe? {
+    suspend fun getRecipeById(id: Long): Recipe? {
         return dao.getRecipeById(id)
     }
 

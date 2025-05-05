@@ -24,4 +24,24 @@
     <string name="list">Tampilan list</string>
     <string name="grid">Tampilan grid</string>
     <string name="trash">sampah</string>
+    <string name="hapus_bahan">Hapus Bahan</string>
+
+    <string name="detail_nama">Nama</string>
+    <string name="detail_kategori">Kategori</string>
+    <string name="detail_deskripsi">Deskripsi</string>
+    <string name="detail_langkah">Langkah Memasak</string>
+    <string name="detail_bahan">Bahan</string>
+    <string name="menu">Menu</string>
+    <string name="edit">Edit</string>
+    <string name="confirm_delete">Konfirmasi Hapus</string>
+    <string name="delete_message">Apakah Anda yakin ingin menghapus resep ini?</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+
+    <string name="judul_tempat_sampah">Tempat Sampah</string>
+    <string name="tidak_ada_data_sampah">Tidak ada data di tempat sampah.</string>
+    <string name="judul_konfirmasi_hapus_permanen">Konfirmasi Hapus Permanen</string>
+    <string name="konfirmasi_hapus_permanen">Apakah Anda yakin ingin menghapus %1$s secara permanen?</string>
+    <string name="hapus_permanen">Hapus Permanen</string>
+    <string name="restore">Restore</string>
 </resources>

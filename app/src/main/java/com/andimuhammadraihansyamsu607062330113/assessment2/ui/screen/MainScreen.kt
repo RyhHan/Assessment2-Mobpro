@@ -144,7 +144,7 @@ fun ScreenContent(showList: Boolean, modifier: Modifier = Modifier,navController
             ) {
                 items(data) {
                         ListItem(recipe = it){
-                        navController.navigate(Screen.FormUbah.withId(it.id))
+                        navController.navigate(Screen.Detail.withId(it.id))
                     }
                     HorizontalDivider()
                 }
@@ -159,7 +159,7 @@ fun ScreenContent(showList: Boolean, modifier: Modifier = Modifier,navController
             ) {
                 items(data) {
                     GridItem(recipe = it) {
-                        navController.navigate(Screen.FormUbah.withId(it.id))
+                        navController.navigate(Screen.Detail.withId(it.id))
                     }
                 }
             }

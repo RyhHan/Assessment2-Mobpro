@@ -14,7 +14,7 @@ abstract class RecipeDb : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: RecipeDb? = null
-
+        @Suppress("DEPRECATION")
         fun getInstance(context: Context): RecipeDb {
             synchronized(this) {
                 var instance = INSTANCE

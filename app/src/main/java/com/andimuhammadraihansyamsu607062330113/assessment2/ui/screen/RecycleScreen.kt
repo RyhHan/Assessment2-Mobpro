@@ -47,6 +47,7 @@ import com.andimuhammadraihansyamsu607062330113.assessment2.ui.theme.Assessment2
 import com.andimuhammadraihansyamsu607062330113.assessment2.util.ViewModelFactory
 import androidx.compose.material3.Divider as HorizontalDivider
 
+@Suppress("DEPRECATION")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecycleScreen(navController: NavHostController) {
@@ -62,7 +63,7 @@ fun RecycleScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Tempat Sampah") },
+                title = { Text(stringResource(R.string.judul_tempat_sampah)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
@@ -89,7 +90,7 @@ fun RecycleScreen(navController: NavHostController) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Tidak ada data di tempat sampah.")
+                Text(stringResource(R.string.tidak_ada_data_sampah))
             }
         } else {
             LazyColumn(
@@ -111,23 +112,25 @@ fun RecycleScreen(navController: NavHostController) {
         if (showDialog && selectedItem != null) {
             AlertDialog(
                 onDismissRequest = { setShowDialog(false) },
-                title = { Text("Konfirmasi Hapus Permanen") },
-                text = { Text("Apakah Anda yakin ingin menghapus ${selectedItem?.nama} secara permanen?") },
+                title = { Text(stringResource(R.string.judul_konfirmasi_hapus_permanen)) },
+                text = {
+                    Text(stringResource(R.string.konfirmasi_hapus_permanen, selectedItem.nama))
+                },
                 confirmButton = {
                     Button(
                         onClick = {
-                            selectedItem?.let {
+                            selectedItem.let {
                                 viewModel.deletePermanent(it)
                             }
                             setShowDialog(false)
                         }
                     ) {
-                        Text("Hapus")
+                        Text(stringResource(R.string.hapus))
                     }
                 },
                 dismissButton = {
                     Button(onClick = { setShowDialog(false) }) {
-                        Text("Batal")
+                        Text(stringResource(R.string.tombol_batal))
                     }
                 },
                 properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -169,14 +172,14 @@ fun DeletedListItem(recipe: Recipe, onDelete: () -> Unit) {
             IconButton(onClick = onDelete) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_delete_forever_24),
-                    contentDescription = "Hapus Permanen",
+                    contentDescription = stringResource(R.string.hapus_permanen),
                     tint = MaterialTheme.colorScheme.error
                 )
             }
             IconButton(onClick = { viewModel.restore(id = recipe.id) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_restore_24),
-                    contentDescription = "Restore",
+                    contentDescription = stringResource(R.string.restore),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
