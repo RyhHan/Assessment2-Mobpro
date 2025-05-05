@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Recipe</string>
+    <string name="app_name">Flavoury</string>
     <string name="list_kosong">No recipe data yet</string>
     <string name="x_diklik">%1$s clicked</string>
     <string name="tambah_recipe">Add Recipe</string>
