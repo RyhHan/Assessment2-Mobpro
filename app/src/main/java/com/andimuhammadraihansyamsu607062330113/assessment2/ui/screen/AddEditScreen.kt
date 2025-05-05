@@ -193,10 +193,6 @@ fun FormRecipe(
             value = langkah,
             onValueChange = onLangkahChange,
             label = { Text(stringResource(id = R.string.langkah_recipe)) },
-            keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.Sentences,
-                imeAction = ImeAction.Next
-            ),
             modifier = Modifier.fillMaxWidth(),
             maxLines = 5
         )
