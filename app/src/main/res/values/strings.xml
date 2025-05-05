@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Recipe</string>
+    <string name="app_name">Flavoury</string>
     <string name="list_kosong">Belum ada data Recipe</string>
     <string name="x_diklik">%1$s</string>
     <string name="tambah_recipe">Tambah Recipe</string>
